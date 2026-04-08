@@ -43,7 +43,7 @@ function startConversation(npc) {
   if (!npc.lines || npc.lines.length === 0) return;
   currentNPC = npc;
   convIndex = 0;
-  renderRoom(); // para actualizar botones (ocultar acciones)
+  renderRoom(); // Actualiza botones (oculta acciones)
   renderConversation();
 }
 
@@ -75,11 +75,11 @@ function renderConversation() {
 
 function finish(ending) {
   gameEnded = true;
-  const asciiContainer = document.getElementById('room-ascii');
+  const canvas = document.getElementById('room-canvas');
   const contentContainer = document.getElementById('room-content');
-  asciiContainer.style.display = 'none';
+  canvas.style.display = 'none';
   let mensaje = '';
-  switch(ending) {
+  switch (ending) {
     case 'Escape':
       mensaje = '¡Escapaste! La llave abre el cofre, revelando un pasadizo que conduce a la superficie. Los ecos de los perros se desvanecen. Has sobrevivido a Tindalos.';
       break;
@@ -101,9 +101,10 @@ function finish(ending) {
 function renderRoom() {
   if (gameEnded) return;
   const room = ROOMS[currentRoomId];
-  const asciiContainer = document.getElementById('room-ascii');
+  const canvas = document.getElementById('room-canvas');
+  room.draw(canvas);
   const contentContainer = document.getElementById('room-content');
-  room.render(asciiContainer, contentContainer);
+  room.render(contentContainer);
   inventory.render(document.getElementById('inventory'));
 
   const actionsDiv = document.createElement('div');

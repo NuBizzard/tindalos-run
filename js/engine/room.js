@@ -9,17 +9,25 @@ class Room {
     this.ascii = ascii;
   }
 
-  render(asciiContainer, contentContainer) {
-    if (this.ascii) {
-      asciiContainer.textContent = this.ascii;
-      asciiContainer.style.display = 'block';
-    } else {
-      asciiContainer.style.display = 'none';
-    }
+  render(contentContainer) {
     contentContainer.innerHTML = `
       <h2>${this.name}</h2>
       <p>${this.description}</p>
       ${this.items.length ? `<p>Ves: ${this.items.map(i => `<strong>${i}</strong>`).join(', ')}</p>` : ''}
     `;
+  }
+
+  draw(canvas) {
+    if (!this.ascii) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '12px "Courier New", monospace';
+    ctx.fillStyle = '#8af';
+    ctx.textBaseline = 'top';
+    const lines = this.ascii.trim().split('\n');
+    const lineHeight = 14;
+    lines.forEach((line, i) => {
+      ctx.fillText(line, 10, i * lineHeight + 8);
+    });
   }
 }
