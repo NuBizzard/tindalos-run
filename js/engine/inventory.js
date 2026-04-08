@@ -17,8 +17,20 @@ class Inventory {
   }
 
   render(container) {
-    container.innerHTML = this.items.length
-      ? `Inventario: ${this.items.join(', ')}`
-      : 'Inventario vacío';
+    const icons = {
+      'llave oxidada': '🔑',
+      'anillo brillante': '💍',
+      'antorcha': '🔦',
+      'piedra con inscripción': '🗿',
+      'Palo seco': '🪵',
+      'pista': '📜'
+    };
+    const itemsHtml = this.items.length
+      ? this.items.map(i => `${icons[i] || '📦'} <b>${i}</b>`).join(' ')
+      : '<i>Inventario vacío</i>';
+    container.innerHTML = `<strong>Inventario:</strong> ${itemsHtml}`;
+    container.style.display = 'flex';
+    container.style.flexWrap = 'wrap';
+    container.style.gap = '6px';
   }
 }
